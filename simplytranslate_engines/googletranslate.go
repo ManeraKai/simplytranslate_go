@@ -8,173 +8,147 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-type googleTranslateEngineStruct struct {
-	Name                    string
-	Get_supported_languages func() map[string]string
-	Detect_language         func(text string)
-	Get_tts                 func(text string, language string) string
-	Translate               func(text string, to_language string, from_language string) string
-}
+type googleTranslateEngineStruct struct{}
 
-func newgoogleTranslateEngineStruct() *googleTranslateEngineStruct {
-	return &googleTranslateEngineStruct{
-		"google",
-		func() map[string]string {
-			return map[string]string{
-				"Afrikaans":          "af",
-				"Albanian":           "sq",
-				"Amharic":            "am",
-				"Arabic":             "ar",
-				"Armenian":           "hy",
-				"Azerbaijani":        "az",
-				"Basque":             "eu",
-				"Belarusian":         "be",
-				"Bengali":            "bn",
-				"Bosnian":            "bs",
-				"Bulgarian":          "bg",
-				"Catalan":            "ca",
-				"Cebuano":            "ceb",
-				"Chichewa":           "ny",
-				"Chinese":            "zh-CN",
-				"Corsican":           "co",
-				"Croatian":           "hr",
-				"Czech":              "cs",
-				"Danish":             "da",
-				"Dutch":              "nl",
-				"English":            "en",
-				"Esperanto":          "eo",
-				"Estonian":           "et",
-				"Filipino":           "tl",
-				"Finnish":            "fi",
-				"French":             "fr",
-				"Frisian":            "fy",
-				"Galician":           "gl",
-				"Georgian":           "ka",
-				"German":             "de",
-				"Greek":              "el",
-				"Gujarati":           "gu",
-				"Haitian Creole":     "ht",
-				"Hausa":              "ha",
-				"Hawaiian":           "haw",
-				"Hebrew":             "iw",
-				"Hindi":              "hi",
-				"Hmong":              "hmn",
-				"Hungarian":          "hu",
-				"Icelandic":          "is",
-				"Igbo":               "ig",
-				"Indonesian":         "class",
-				"Irish":              "ga",
-				"Italian":            "it",
-				"Japanese":           "ja",
-				"Javanese":           "jw",
-				"Kannada":            "kn",
-				"Kazakh":             "kk",
-				"Khmer":              "km",
-				"Kinyarwanda":        "rw",
-				"Korean":             "ko",
-				"Kurdish (Kurmanji)": "ku",
-				"Kyrgyz":             "ky",
-				"Lao":                "lo",
-				"Latin":              "la",
-				"Latvian":            "lv",
-				"Lithuanian":         "lt",
-				"Luxembourgish":      "lb",
-				"Macedonian":         "mk",
-				"Malagasy":           "mg",
-				"Malay":              "ms",
-				"Malayalam":          "ml",
-				"Maltese":            "mt",
-				"Maori":              "mi",
-				"Marathi":            "mr",
-				"Mongolian":          "mn",
-				"Myanmar (Burmese)":  "my",
-				"Nepali":             "ne",
-				"Norwegian":          "no",
-				"Odia (Oriya)":       "or",
-				"Pashto":             "ps",
-				"Persian":            "fa",
-				"Polish":             "pl",
-				"Portuguese":         "pt",
-				"Punjabi":            "pa",
-				"Romanian":           "ro",
-				"Russian":            "ru",
-				"Samoan":             "sm",
-				"Scots Gaelic":       "gd",
-				"Serbian":            "sr",
-				"Sesotho":            "st",
-				"Shona":              "sn",
-				"Sindhi":             "sd",
-				"Sinhala":            "si",
-				"Slovak":             "sk",
-				"Slovenian":          "sl",
-				"Somali":             "so",
-				"Spanish":            "es",
-				"Sundanese":          "su",
-				"Swahili":            "sw",
-				"Swedish":            "sv",
-				"Tajik":              "tg",
-				"Tamil":              "ta",
-				"Tatar":              "tt",
-				"Telugu":             "te",
-				"Thai":               "th",
-				"Turkish":            "tr",
-				"Turkmen":            "tk",
-				"Ukrainian":          "uk",
-				"Urdu":               "ur",
-				"Uyghur":             "ug",
-				"Uzbek":              "uz",
-				"Vietnamese":         "vi",
-				"Welsh":              "cy",
-				"Xhosa":              "xh",
-				"Yclassdish":         "yi",
-				"Yoruba":             "yo",
-				"Zulu":               "zu",
-			}
-
-		},
-		func(text string) {
-			return
-		},
-		func(text string, language string) string {
-			if len(text) == 0 || len(language) == 0 {
-				return ""
-			} else if len(text) == 0 || len(language) == 0 {
-				return ""
-			}
-
-			if language == "auto" {
-				language = "en"
-			}
-			paramsMap := url.Values{}
-			paramsMap.Add("tl", language)
-			paramsMap.Add("q", strings.TrimSpace(text))
-			paramsMap.Add("client", "tw-ob")
-
-			params := paramsMap.Encode()
-
-			return "https://translate.google.com/translate_tts?" + params
-		},
-		func(text string, to_language string, from_language string) string {
-
-			if len(from_language) == 0 {
-				from_language = "auto"
-			}
-
-			paramsMap := url.Values{}
-			paramsMap.Add("q", strings.TrimSpace(text))
-			paramsMap.Add("sl", from_language)
-			paramsMap.Add("tl", to_language)
-
-			params := paramsMap.Encode()
-
-			r, _ := http.Get("https://translate.google.com/m?" + params)
-
-			doc, _ := goquery.NewDocumentFromReader(r.Body)
-
-			return doc.Find(".result-container").Text()
-
-		},
+func (self googleTranslateEngineStruct) GetSupportedLanguages() map[string]string {
+	return map[string]string{
+		"af":    "Afrikaans",
+		"sq":    "Albanian",
+		"am":    "Amharic",
+		"ar":    "Arabic",
+		"hy":    "Armenian",
+		"az":    "Azerbaijani",
+		"eu":    "Basque",
+		"be":    "Belarusian",
+		"bn":    "Bengali",
+		"bs":    "Bosnian",
+		"bg":    "Bulgarian",
+		"ca":    "Catalan",
+		"ceb":   "Cebuano",
+		"ny":    "Chichewa",
+		"zh-CN": "Chinese",
+		"co":    "Corsican",
+		"hr":    "Croatian",
+		"cs":    "Czech",
+		"da":    "Danish",
+		"nl":    "Dutch",
+		"en":    "English",
+		"eo":    "Esperanto",
+		"et":    "Estonian",
+		"tl":    "Filipino",
+		"fi":    "Finnish",
+		"fr":    "French",
+		"fy":    "Frisian",
+		"gl":    "Galician",
+		"ka":    "Georgian",
+		"de":    "German",
+		"el":    "Greek",
+		"gu":    "Gujarati",
+		"ht":    "Haitian Creole",
+		"ha":    "Hausa",
+		"haw":   "Hawaiian",
+		"iw":    "Hebrew",
+		"hi":    "Hindi",
+		"hmn":   "Hmong",
+		"hu":    "Hungarian",
+		"is":    "Icelandic",
+		"ig":    "Igbo",
+		"class": "Indonesian",
+		"ga":    "Irish",
+		"it":    "Italian",
+		"ja":    "Japanese",
+		"jw":    "Javanese",
+		"kn":    "Kannada",
+		"kk":    "Kazakh",
+		"km":    "Khmer",
+		"rw":    "Kinyarwanda",
+		"ko":    "Korean",
+		"ku":    "Kurdish (Kurmanji)",
+		"ky":    "Kyrgyz",
+		"lo":    "Lao",
+		"la":    "Latin",
+		"lv":    "Latvian",
+		"lt":    "Lithuanian",
+		"lb":    "Luxembourgish",
+		"mk":    "Macedonian",
+		"mg":    "Malagasy",
+		"ms":    "Malay",
+		"ml":    "Malayalam",
+		"mt":    "Maltese",
+		"mi":    "Maori",
+		"mr":    "Marathi",
+		"mn":    "Mongolian",
+		"my":    "Myanmar (Burmese)",
+		"ne":    "Nepali",
+		"no":    "Norwegian",
+		"or":    "Odia (Oriya)",
+		"ps":    "Pashto",
+		"fa":    "Persian",
+		"pl":    "Polish",
+		"pt":    "Portuguese",
+		"pa":    "Punjabi",
+		"ro":    "Romanian",
+		"ru":    "Russian",
+		"sm":    "Samoan",
+		"gd":    "Scots Gaelic",
+		"sr":    "Serbian",
+		"st":    "Sesotho",
+		"sn":    "Shona",
+		"sd":    "Sindhi",
+		"si":    "Sinhala",
+		"sk":    "Slovak",
+		"sl":    "Slovenian",
+		"so":    "Somali",
+		"es":    "Spanish",
+		"su":    "Sundanese",
+		"sw":    "Swahili",
+		"sv":    "Swedish",
+		"tg":    "Tajik",
+		"ta":    "Tamil",
+		"tt":    "Tatar",
+		"te":    "Telugu",
+		"th":    "Thai",
+		"tr":    "Turkish",
+		"tk":    "Turkmen",
+		"uk":    "Ukrainian",
+		"ur":    "Urdu",
+		"ug":    "Uyghur",
+		"uz":    "Uzbek",
+		"vi":    "Vietnamese",
+		"cy":    "Welsh",
+		"xh":    "Xhosa",
+		"yi":    "Yclassdish",
+		"yo":    "Yoruba",
+		"zu":    "Zulu",
 	}
+
 }
 
-var GoogleTranslateEngine = newgoogleTranslateEngineStruct()
+func (self googleTranslateEngineStruct) Translate(text, from, to string) string {
+
+	if len(from) == 0 {
+		from = "auto"
+	}
+
+	paramsMap := url.Values{}
+	paramsMap.Add("q", strings.TrimSpace(text))
+	paramsMap.Add("sl", from)
+	paramsMap.Add("tl", to)
+
+	params := paramsMap.Encode()
+
+	r, _ := http.Get("https://translate.google.com/m?" + params)
+
+	doc, _ := goquery.NewDocumentFromReader(r.Body)
+
+	return doc.Find(".result-container").Text()
+
+}
+
+func (self googleTranslateEngineStruct) Name() string {
+	return "google"
+}
+
+var GoogleTranslateEngine = func() *googleTranslateEngineStruct {
+	return &googleTranslateEngineStruct{}
+}()
