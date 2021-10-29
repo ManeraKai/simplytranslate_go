@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	engines "github.com/manerakai/simplytranslate_engines_go/engines"
+	engines "github.com/manerakai/simplytranslate_go/engines"
 )
 
 func main() {
