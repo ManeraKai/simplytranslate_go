@@ -1,17 +1,24 @@
-package simplytranslate_engines
+package engines
 
 import (
 	"strings"
 )
 
-type utils struct {
+type Engine interface {
+	Name() string
+	GetSupportedLanguages() map[string]string
+	Translate(text, from, to string) string
 }
 
-var Utils = func() *utils {
-	return &utils{}
-}()
+func GetSupportedLanguages(engine Engine) map[string]string {
+	return engine.GetSupportedLanguages()
+}
 
-func (self *utils) ToFullName(langCode string, engine Engine) string {
+func Translate(text, from, to string, engine Engine) string {
+	return engine.Translate(text, from, to)
+}
+
+func ToFullName(langCode string, engine Engine) string {
 	langCode = strings.ToLower(langCode)
 	if langCode == "auto" {
 		return "Autodetect"
@@ -24,7 +31,7 @@ func (self *utils) ToFullName(langCode string, engine Engine) string {
 	return ""
 }
 
-func (self *utils) ToLangCode(lang string, engine Engine) string {
+func ToLangCode(lang string, engine Engine) string {
 	lang = strings.ToLower(lang)
 
 	if lang == "autodetect" || lang == "auto" {

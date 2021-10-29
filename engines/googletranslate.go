@@ -1,6 +1,7 @@
-package simplytranslate_engines
+package engines
 
 import (
+	"fmt"
 	"net/http"
 	"net/url"
 	"strings"
@@ -137,9 +138,17 @@ func (self googleTranslateEngineStruct) Translate(text, from, to string) string 
 
 	params := paramsMap.Encode()
 
-	r, _ := http.Get("https://translate.google.com/m?" + params)
+	r, httpError := http.Get("https://translate.google.com/m?" + params)
 
-	doc, _ := goquery.NewDocumentFromReader(r.Body)
+	if httpError != nil {
+		fmt.Println("httpError:", httpError)
+	}
+
+	doc, goqueryError := goquery.NewDocumentFromReader(r.Body)
+
+	if goqueryError != nil {
+		fmt.Println("goqueryError", goqueryError)
+	}
 
 	return doc.Find(".result-container").Text()
 
