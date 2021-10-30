@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/manerakai/simplytranslate_go/engines"
+	"simplytranslate_go/engines"
 )
 
 func translate(w http.ResponseWriter, r *http.Request) {
