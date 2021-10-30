@@ -58,6 +58,6 @@ func tts(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "")
 	} else {
 		w.Header().Set("Content-Type", "application/octet-stream")
-		w.Write(engines.GoogleTranslateEngine.TTS(text, lang))
+		w.Write(engines.GoogleTranslateEngine.Tts(text, lang))
 	}
 }

@@ -155,7 +155,7 @@ func (self googleTranslateEngineStruct) Translate(text, from, to string) string 
 
 }
 
-func (self googleTranslateEngineStruct) TTS(text, lang string) []byte {
+func (self googleTranslateEngineStruct) Tts(text, lang string) []byte {
 
 	paramsMap := url.Values{}
 	paramsMap.Add("q", strings.TrimSpace(text))
