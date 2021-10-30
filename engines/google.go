@@ -2,6 +2,7 @@ package engines
 
 import (
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"net/url"
 	"strings"
@@ -151,6 +152,31 @@ func (self googleTranslateEngineStruct) Translate(text, from, to string) string 
 	}
 
 	return doc.Find(".result-container").Text()
+
+}
+
+func (self googleTranslateEngineStruct) TTS(text, lang string) []byte {
+
+	paramsMap := url.Values{}
+	paramsMap.Add("q", strings.TrimSpace(text))
+	paramsMap.Add("tl", lang)
+	paramsMap.Add("client", "tw-ob")
+
+	params := paramsMap.Encode()
+
+	resp, httpError := http.Get("https://translate.google.com/translate_tts?" + params)
+
+	if httpError != nil {
+		fmt.Println("httpError:", httpError)
+	}
+
+	bodyBytes, err := ioutil.ReadAll(resp.Body)
+
+	if err != nil {
+		fmt.Println("Error with bytes", err)
+	}
+
+	return bodyBytes
 
 }
 
