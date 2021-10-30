@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,49 +12,63 @@
         }
     </style>
 </head>
+
 <body>
     <h1 id="simplytranslate-web-api">SimplyTranslate Web API</h1>
     <h2 id="translate">Translate</h2>
     <p>Path <code>/api/translate</code></p>
     <h4 id="arguments">Arguments</h4>
     <ul>
-    <li><p><code>engine</code></p>
-    <ul>
-    <li><p><code>google</code></p>
-    <p>  Google Translate.</p>
-    </li>
-    <li><p><code>libre</code></p>
-    <p>  Libre Translate.</p>
-    </li>
+        <li>
+            <p><code>engine</code></p>
+            <ul>
+                <li>
+                    <p><code>google</code></p>
+                    <p> Google Translate.</p>
+                </li>
+                <li>
+                    <p><code>libre</code></p>
+                    <p> Libre Translate.</p>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <p><code>from</code></p>
+            <p> Choose the From-Language (Source Language). It&#39;s based on the engine.</p>
+        </li>
+        <li>
+            <p><code>to</code></p>
+            <p> Choose the To-Language (Target Language). It&#39;s based on the engine.</p>
+        </li>
+        <li>
+            <p><code>text</code></p>
+        </li>
     </ul>
-    </li>
-    <li><p><code>from</code></p>
-    <p>  Choose the From-Language (Source Language). It&#39;s based on the engine.</p>
-    </li>
-    <li><p><code>to</code></p>
-    <p>  Choose the To-Language (Target Language). It&#39;s based on the engine.</p>
-    </li>
-    <li><p><code>text</code></p>
-    </li>
-    </ul>
-    <p>Ex: <a href="http://localhost:3000/api/translate?engine=google&amp;from=en&amp;to=es&amp;text=Hello">http://localhost:3000/api/translate/?engine=google&amp;from=en&amp;to=es&amp;text=Hello</a></p>
+    <p>Ex: <a
+            href="http://localhost:3000/api/translate?engine=google&amp;from=en&amp;to=es&amp;text=Hello">http://localhost:3000/api/translate/?engine=google&amp;from=en&amp;to=es&amp;text=Hello</a>
+    </p>
     <h2 id="get-languages">Get Languages</h2>
     <p>Path <code>/api/get_languages</code></p>
     <h4 id="arguments">Arguments</h4>
     <ul>
-    <li><p><code>engine</code></p>
-    <ul>
-    <li><p><code>google</code></p>
-    <p>  Google Translate.</p>
-    </li>
-    <li><p><code>libre</code></p>
-    <p>  Libre Translate.</p>
-    </li>
+        <li>
+            <p><code>engine</code></p>
+            <ul>
+                <li>
+                    <p><code>google</code></p>
+                    <p> Google Translate.</p>
+                </li>
+                <li>
+                    <p><code>libre</code></p>
+                    <p> Libre Translate.</p>
+                </li>
+            </ul>
+        </li>
     </ul>
-    </li>
-    </ul>
-    <p>Ex: <a href="http://localhost:3000/api/get_languages?engine=google">http://localhost:3000/api/get_languages/?engine=google</a></p>
-    <!-- <h2 id="text-to-speech-tts-">Text-to-Speech (TTS)</h2>
+    <p>Ex: <a
+            href="http://localhost:3000/api/get_languages?engine=google">http://localhost:3000/api/get_languages/?engine=google</a>
+    </p>
+    <h2 id="text-to-speech-tts-">Text-to-Speech (TTS)</h2>
     <p>Path <code>/api/tts/</code></p>
     <h4 id="arguments">Arguments</h4>
     <ul>
@@ -61,9 +76,6 @@
     <ul>
     <li><p><code>google</code></p>
     <p>  Google Translate.</p>
-    </li>
-    <li><p><code>libre</code></p>
-    <p>  Libre Translate.</p>
     </li>
     </ul>
     </li>
@@ -73,6 +85,7 @@
     <li><p><code>text</code></p>
     </li>
     </ul>
-    <p>Ex: <a href="http://localhost:3000/api/tts?engine=google&amp;lang=en&amp;text=Hello">http://localhost:3000/api/tts/?engine=google&amp;lang=en&amp;text=Hello</a></p>     -->
+    <p>Ex: <a href="http://localhost:3000/api/tts?engine=google&amp;lang=en&amp;text=Hello">http://localhost:3000/api/tts/?engine=google&amp;lang=en&amp;text=Hello</a></p>    
 </body>
+
 </html>
