@@ -2,27 +2,30 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
-	"log"
+	"html/template"
 	"net/http"
-	"os"
+	"simplytranslate_go/engines"
 )
 
+type indexDataStruct struct {
+	LangList map[string]string
+}
+
 func index(w http.ResponseWriter, r *http.Request) {
-	file, err := os.Open("index.html")
-	if err != nil {
-		log.Fatal(err)
+
+	var langList map[string]string = make(map[string]string)
+
+	for k, v := range engines.GetSupportedLanguages("Google") {
+		langList[k] = v
 	}
-	b, err := ioutil.ReadAll(file)
-	defer func() {
-		if err = file.Close(); err != nil {
-			log.Fatal(err)
-		}
-	}()
+
+	indexData := indexDataStruct{
+		langList,
+	}
 
 	http.FileServer(http.Dir("/"))
-
-	fmt.Fprintf(w, string(b))
+	t, _ := template.ParseFiles("index.html")
+	t.Execute(w, indexData)
 }
 
 func writeError(w http.ResponseWriter, status int, err interface{}) {
@@ -35,6 +38,6 @@ func main() {
 	http.HandleFunc("/api/translate", translate)
 	http.HandleFunc("/api/get_languages", getSupportedLanguages)
 	http.HandleFunc("/api/tts", tts)
-	fmt.Println("Running on http://localhost:3000/")
-	http.ListenAndServe(":3000", nil)
+	fmt.Println("Running on http://localhost:8090/")
+	http.ListenAndServe(":8090", nil)
 }

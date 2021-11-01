@@ -13,17 +13,15 @@ import (
 	"github.com/tidwall/gjson"
 )
 
-type libreTranslateEngineStruct struct{}
+type libreTranslateEngineStruct struct {
+	Name string
+}
 
 var LibreTranslateEngine = func() *libreTranslateEngineStruct {
-	return &libreTranslateEngineStruct{}
+	return &libreTranslateEngineStruct{"libre"}
 }()
 
 var libreSupportedLanguages map[string]string
-
-func (self libreTranslateEngineStruct) Name() string {
-	return "libre"
-}
 
 func (self libreTranslateEngineStruct) GetSupportedLanguages() map[string]string {
 	if libreSupportedLanguages != nil {

@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 
 	"simplytranslate_go/engines"
@@ -60,4 +61,14 @@ func tts(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/octet-stream")
 		w.Write(engines.GoogleTranslateEngine.Tts(text, lang))
 	}
+}
+
+func stylePage(w http.ResponseWriter, r *http.Request) {
+	fileBytes, err := ioutil.ReadFile("style.css")
+	if err != nil {
+		panic(err)
+	}
+	w.WriteHeader(http.StatusOK)
+	w.Header().Set("Content-Type", "application/octet-stream")
+	w.Write(fileBytes)
 }

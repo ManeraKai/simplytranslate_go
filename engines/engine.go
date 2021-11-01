@@ -5,7 +5,6 @@ import (
 )
 
 type Engine interface {
-	Name() string
 	GetSupportedLanguages() map[string]string
 	Translate(text, from, to string) string
 }

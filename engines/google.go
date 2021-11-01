@@ -10,7 +10,9 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-type googleTranslateEngineStruct struct{}
+type googleTranslateEngineStruct struct {
+	Name string
+}
 
 func (self googleTranslateEngineStruct) GetSupportedLanguages() map[string]string {
 	return map[string]string{
@@ -180,10 +182,6 @@ func (self googleTranslateEngineStruct) Tts(text, lang string) []byte {
 
 }
 
-func (self googleTranslateEngineStruct) Name() string {
-	return "google"
-}
-
 var GoogleTranslateEngine = func() *googleTranslateEngineStruct {
-	return &googleTranslateEngineStruct{}
+	return &googleTranslateEngineStruct{"google"}
 }()
