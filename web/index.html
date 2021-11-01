@@ -3,88 +3,76 @@
 
 <head>
     <title>SimplyTranslate</title>
-    <!-- <link rel="shortcut icon" href="/static/favicon.ico"> -->
-    <meta name="description" content="Experience simple and private Google translations">
+    <link rel="shortcut icon" href="/static/favicon.ico">
+    <meta name="description" content="Experience simple and private translations">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
     <link rel="stylesheet" href="static/style.css">
 </head>
 
 <body>
-
-    <center>
+    <br>
+    <div class="center">
         <header>
             <h1>SimplyTranslate</h1>
         </header>
-    </center>
 
-    <form action="/?engine=google" method="POST">
+        <form action="/?engine=google" method="POST">
+            <!-- engine buttons -->
+            <!-- <center>
+                Translation Engine
+                <a style="text-decoration: underline;" href="/?engine=google&typingiscool=False">Google</a>
+                |
+                <a href="/?engine=deepl&typingiscool=False">DeepL (Testing)</a>
+                |
+                <a href="/?engine=libre&typingiscool=False">LibreTranslate</a>
+            </center> -->
+            <!-- from and to language -->
+            <div class="wrap">
+                <div class="language">
+                    <select name="from_language" id="from_language" aria-label="Source language" >
+                        <option {{.From}}value="auto">AutoDetect</option>
+                        {{range $v := .LangListFrom}}
+                        {{$v}}
+                        {{end}}
+                    </select>
+                </div>
 
-        <!-- engine buttons -->
-        <center>
-            Translation Engine
-            <a style="text-decoration: underline;" href="/?engine=google&typingiscool=False">Google</a>
-            |
-            <a style="" href="/?engine=deepl&typingiscool=False">DeepL (Testing)</a>
-            |
-            <a style="" href="/?engine=libre&typingiscool=False">LibreTranslate</a>
-        </center>
-        <br>
-        <!-- from and to language -->
-        <div class="wrap">
-            <div class="language">
-                <select name="from_language" id="from_language" aria-label="Source language">
-                    <option value="auto">AutoDetect</option>
-                    {{range  $k, $v := .LangList}}
-                    <option value="{{$k}}">{{$v}}</option>
-                    {{end}}
-                </select>
+                <!-- <div class="switch_languages">
+                    <button id="switchbutton" aria-label="Switch languages"
+                        formaction="/switchlanguages/?engine=google&typingiscool=False" type="submit">
+                        <->
+                    </button>
+                </div> -->
+
+                <div class="language">
+                    <select name="to_language" id="to_language" aria-label="Target language" selected="{{.To}}">
+                        {{range $v := .LangListTo}}
+                        {{$v}}
+                        {{end}}
+                    </select>
+                </div>
+
             </div>
 
-            <div class="switch_languages">
-                <button id="switchbutton" aria-label="Switch languages"
-                    formaction="/switchlanguages/?engine=google&typingiscool=False" type="submit">
-                    <->
-                </button>
+            <!-- text boxes -->
+            <div class="wrap">
+                <div class="item-wrapper">
+                    <textarea autofocus class="item" id="input" name="input" dir="auto"
+                        placeholder="Enter Text Here">{{.Input}}</textarea>
+                    <div class="wrap-right">
+                        <button type="submit">Translate with google!</button>
+                    </div>
+                </div>
+                <div class="item-wrapper">
+                    <textarea class="translation item" dir="auto" placeholder="Translation" readonly>{{.Output}}</textarea>
+                </div>
             </div>
-
-            <div class="language">
-                <select name="to_language" id="to_language" aria-label="Target language">
-                    {{range  $k, $v := .LangList}}
-                    <option value="{{$k}}">{{$v}}</option>
-                    {{end}}
-                </select>
-            </div>
-        </div>
-
-        <!-- text boxes -->
-        <div class="wrap">
-            <div class="item-wrapper">
-                <textarea autofocus class="item" id="input" name="input" dir="auto"
-                    placeholder="Enter Text Here"></textarea>
-                <!-- TTS for the input text -->
-            </div>
-            <div class="item-wrapper">
-                <textarea class="translation item" dir="auto" placeholder="Translation" readonly></textarea>
-                <!-- TTS for the output text -->
-            </div>
-        </div>
-
-        <br>
-
-        <div align="right">
-            <!-- translate button -->
-            <button type="submit">Translate with google!</button>
-        </div>
-
-    </form>
-
-    <br>
+        </form>
+    </div>
     <footer>
-        <center>
-            <a target="_new" href="https://simple-web.org/projects/simplytranslate.html">Project Page</a> | <a
-                href="https://simple-web.org">Simple Web Project</a>
-        </center>
+        <a target="_new" href="https://simple-web.org/projects/simplytranslate.html">Project Page</a> | <a
+            href="https://simple-web.org">Simple Web Project</a>
     </footer>
 </body>
 

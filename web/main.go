@@ -2,28 +2,57 @@ package main
 
 import (
 	"fmt"
-	"html/template"
 	"net/http"
 	"simplytranslate_go/engines"
+	"sort"
+	"text/template"
 )
 
 type indexDataStruct struct {
-	LangList map[string]string
+	LangListFrom []string
+	LangListTo   []string
+	Input        string
+	Output       string
+	From         string
+	To           string
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
 
-	var langList map[string]string = make(map[string]string)
+	from := r.FormValue("from_language")
+	to := r.FormValue("to_language")
+	text := r.FormValue("input")
+
+	output := engines.Translate(text, from, to, "google")
+
+	var langListFrom []string = []string{}
+	var langListTo []string = []string{}
 
 	for k, v := range engines.GetSupportedLanguages("Google") {
-		langList[k] = v
+		isSelectedFrom := ""
+		isSelectedTo := ""
+		if k == from {
+			isSelectedFrom = "selected"
+		}
+		if k == to {
+			isSelectedTo = "selected"
+		}
+
+		langListFrom = append(langListFrom, fmt.Sprintf("<option %s value=\"%s\">%s</option>", isSelectedFrom, k, v))
+		langListTo = append(langListTo, fmt.Sprintf("<option %s value=\"%s\">%s</option>", isSelectedTo, k, v))
+		sort.Strings(langListFrom)
+		sort.Strings(langListTo)
 	}
 
 	indexData := indexDataStruct{
-		langList,
+		langListFrom,
+		langListTo,
+		text,
+		output,
+		from,
+		to,
 	}
 
-	http.FileServer(http.Dir("/"))
 	t, _ := template.ParseFiles("index.html")
 	t.Execute(w, indexData)
 }
@@ -38,6 +67,7 @@ func main() {
 	http.HandleFunc("/api/translate", translate)
 	http.HandleFunc("/api/get_languages", getSupportedLanguages)
 	http.HandleFunc("/api/tts", tts)
-	fmt.Println("Running on http://localhost:8090/")
-	http.ListenAndServe(":8090", nil)
+	fmt.Println("Running on http://localhost:8097/")
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+	http.ListenAndServe(":8097", nil)
 }
