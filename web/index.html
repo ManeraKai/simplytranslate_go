@@ -14,23 +14,24 @@
     <br>
     <div class="center">
         <header>
-            <h1>SimplyTranslate</h1>
+            <h1>SimplyTranslate Web</h1>
         </header>
-
+        <br>
         <form action="/?engine=google" method="POST">
             <!-- engine buttons -->
-            <!-- <center>
-                Translation Engine
-                <a style="text-decoration: underline;" href="/?engine=google&typingiscool=False">Google</a>
-                |
-                <a href="/?engine=deepl&typingiscool=False">DeepL (Testing)</a>
-                |
-                <a href="/?engine=libre&typingiscool=False">LibreTranslate</a>
-            </center> -->
+            <div class="engines">
+            Engine
+            <a style="text-decoration: underline;" href="/?engine=google&typingiscool=False">Google</a>
+            |
+            <a href="/?engine=deepl&typingiscool=False">DeepL (Testing)</a>
+            |
+            <a href="/?engine=libre&typingiscool=False">LibreTranslate</a>
+        </div>
+            <br>
             <!-- from and to language -->
             <div class="wrap">
                 <div class="language">
-                    <select name="from_language" id="from_language" aria-label="Source language" >
+                    <select name="from_language" id="from_language" aria-label="Source language">
                         <option {{.From}}value="auto">AutoDetect</option>
                         {{range $v := .LangListFrom}}
                         {{$v}}
@@ -38,12 +39,12 @@
                     </select>
                 </div>
 
-                <!-- <div class="switch_languages">
+                <div class="switch_languages">
                     <button id="switchbutton" aria-label="Switch languages"
                         formaction="/switchlanguages/?engine=google&typingiscool=False" type="submit">
                         <->
                     </button>
-                </div> -->
+                </div>
 
                 <div class="language">
                     <select name="to_language" id="to_language" aria-label="Target language" selected="{{.To}}">
@@ -65,7 +66,8 @@
                     </div>
                 </div>
                 <div class="item-wrapper">
-                    <textarea class="translation item" dir="auto" placeholder="Translation" readonly>{{.Output}}</textarea>
+                    <textarea class="translation item" dir="auto" placeholder="Translation"
+                        readonly>{{.Output}}</textarea>
                 </div>
             </div>
         </form>
