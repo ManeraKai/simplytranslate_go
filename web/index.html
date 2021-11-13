@@ -5,6 +5,7 @@
     <title>SimplyTranslate</title>
     <link rel="shortcut icon" href="/static/favicon.ico">
     <meta name="description" content="Experience simple and private translations">
+    <meta itemprop="image" content="static/screenshot_dark.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
     <link rel="stylesheet" href="static/style.css">
@@ -17,22 +18,19 @@
             <h1>SimplyTranslate Web</h1>
         </header>
         <br>
-        <form action="/?engine=google" method="POST">
+        <form id="form" action="/?engine=google" method="POST">
             <!-- engine buttons -->
             <div class="engines">
-            Engine
-            <a style="text-decoration: underline;" href="/?engine=google&typingiscool=False">Google</a>
-            |
-            <a href="/?engine=deepl&typingiscool=False">DeepL (Testing)</a>
-            |
-            <a href="/?engine=libre&typingiscool=False">LibreTranslate</a>
-        </div>
+                Engine
+                <a style="text-decoration: underline;" href="/?engine=google&typingiscool=False">Google</a> |
+                <a href="/?engine=deepl&typingiscool=False">DeepL (Testing)</a> |
+                <a href="/?engine=libre&typingiscool=False">LibreTranslate</a>
+            </div>
             <br>
             <!-- from and to language -->
             <div class="wrap">
                 <div class="language">
                     <select name="from_language" id="from_language" aria-label="Source language">
-                        <option {{.From}}value="auto">AutoDetect</option>
                         {{range $v := .LangListFrom}}
                         {{$v}}
                         {{end}}
@@ -40,8 +38,8 @@
                 </div>
 
                 <div class="switch_languages">
-                    <button id="switchbutton" aria-label="Switch languages"
-                        formaction="/switchlanguages/?engine=google&typingiscool=False" type="submit">
+                    <button id="switchbutton" aria-label="Switch languages" formaction="?switchlangs=true&engine=google"
+                        type="submit">
                         <->
                     </button>
                 </div>
@@ -55,12 +53,11 @@
                 </div>
 
             </div>
-
             <!-- text boxes -->
             <div class="wrap">
                 <div class="item-wrapper">
                     <textarea autofocus class="item" id="input" name="input" dir="auto"
-                        placeholder="Enter Text Here">{{.Input}}</textarea>
+                    placeholder="Enter Text Here">{{.Input}}</textarea>
                     <div class="wrap-right">
                         <button type="submit">Translate with google!</button>
                     </div>
@@ -76,6 +73,13 @@
         <a target="_new" href="https://simple-web.org/projects/simplytranslate.html">Project Page</a> | <a
             href="https://simple-web.org">Simple Web Project</a>
     </footer>
+    <script>
+        document.onkeypress =
+            function () {
+                if (event.ctrlKey && event.keyCode == 13)
+                    document.getElementById('form').submit();
+            }
+    </script>
 </body>
 
 </html>

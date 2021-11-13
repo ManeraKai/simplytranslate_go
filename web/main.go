@@ -22,10 +22,33 @@ func index(w http.ResponseWriter, r *http.Request) {
 	from := r.FormValue("from_language")
 	to := r.FormValue("to_language")
 	text := r.FormValue("input")
+	switchlangs := r.FormValue("switchlangs")
+
+	if from == "" {
+		from = "auto"
+	}
+	if to == "" {
+		to = "en"
+	}
+
+	if switchlangs == "true" && from != "auto" {
+		tmpFrom := from
+		from = to
+		to = tmpFrom
+	}
 
 	output := engines.Translate(text, from, to, "google")
 
 	var langListFrom []string = []string{}
+
+	isAutoSelected := ""
+
+	if from == "auto" {
+		isAutoSelected = "selected"
+	}
+
+	langListFrom = append(langListFrom, fmt.Sprintf("<option %s value=\"auto\">AutoDetect</option>", isAutoSelected))
+
 	var langListTo []string = []string{}
 
 	for k, v := range engines.GetSupportedLanguages("Google") {
