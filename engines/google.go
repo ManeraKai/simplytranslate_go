@@ -3,11 +3,13 @@ package engines
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"net/url"
+	"strconv"
 	"strings"
 
-	"github.com/PuerkitoBio/goquery"
+	"github.com/tidwall/gjson"
 )
 
 type googleTranslateEngineStruct struct {
@@ -125,35 +127,58 @@ func (self googleTranslateEngineStruct) GetSupportedLanguages() map[string]strin
 		"yo":    "Yoruba",
 		"zu":    "Zulu",
 	}
-
 }
 
 func (self googleTranslateEngineStruct) Translate(text, from, to string) string {
 
-	if len(from) == 0 {
+	if from == "" {
 		from = "auto"
 	}
 
 	paramsMap := url.Values{}
-	paramsMap.Add("q", strings.TrimSpace(text))
+
 	paramsMap.Add("sl", from)
 	paramsMap.Add("tl", to)
+	paramsMap.Add("hl", to)
+	paramsMap.Add("q", strings.TrimSpace(text))
 
 	params := paramsMap.Encode()
 
-	r, httpError := http.Get("https://translate.google.com/m?" + params)
+	myUrl := "https://translate.googleapis.com/translate_a/single?client=gtx&ie=UTF-8&oe=UTF-8&dt=bd&dt=ex&dt=ld&dt=md&dt=rw&dt=rm&dt=ss&dt=t&dt=at&dt=qc&" + params
+
+	println(myUrl)
+	r, httpError := http.Get(myUrl)
 
 	if httpError != nil {
 		fmt.Println("httpError:", httpError)
 	}
 
-	doc, goqueryError := goquery.NewDocumentFromReader(r.Body)
+	println(r.Body)
 
-	if goqueryError != nil {
-		fmt.Println("goqueryError", goqueryError)
+	bodyBytes, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		fmt.Println(err)
 	}
 
-	return doc.Find(".result-container").Text()
+	bodyString := string(bodyBytes)
+
+	firstAbstraction := gjson.Get(bodyString, "0")
+
+	lengthy, lengthyError := strconv.Atoi(firstAbstraction.Get("#").Raw)
+	if lengthyError != nil {
+		log.Fatal(lengthyError)
+	}
+
+	var translation string
+
+	for i := 0; i < lengthy; i++ {
+		third := firstAbstraction.Get(strconv.Itoa(i)).Get("0").Str
+		if third != "" {
+			translation += third
+		}
+	}
+
+	return translation
 
 }
 

@@ -30,21 +30,6 @@ func ToFullName(langCode string, engine string) string {
 	return ""
 }
 
-func GetEngine(engineName string) Engine {
-
-	switch engineName {
-	case "google":
-		return GoogleTranslateEngine
-
-	case "libre":
-		return LibreTranslateEngine
-
-	default:
-		return GoogleTranslateEngine
-	}
-
-}
-
 func ToLangCode(lang string, engine string) string {
 	lang = strings.ToLower(lang)
 
@@ -58,4 +43,19 @@ func ToLangCode(lang string, engine string) string {
 		}
 	}
 	return ""
+}
+
+func GetEngine(engineName string) Engine {
+
+	switch engineName {
+	case "google":
+		return GoogleTranslateEngine
+
+	case "libre":
+		return LibreTranslateEngine
+
+	default:
+		return GoogleTranslateEngine
+	}
+
 }

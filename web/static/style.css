@@ -7,7 +7,8 @@
 .wrap-right {
     text-align: right;
     margin-top: 20px;
-    width: 100%;
+    width: 700px;
+    margin: 10px 5px;
 }
 
 .center {
@@ -16,24 +17,20 @@
     align-items: center;
 }
 
-#could_not_switch_languages_text {
-    color: red;
-}
-
 .item {
-    width: 100%;
     box-sizing: border-box;
+    width: 100%;
     height: 300px;
     margin: 0;
 }
 
 .item-wrapper {
+    box-sizing: border-box;
     width: 700px;
     margin: 5px 5px;
 }
 
-.language,
-.switch_languages {
+.language, .switch_languages {
     height: 40px;
     margin: 0px 5px;
 }
@@ -44,9 +41,7 @@ button {
     border: 2px solid #888888;
 }
 
-input,
-select,
-textarea {
+input, select, textarea {
     font-size: 1rem;
     padding: 4px;
     border: 2px solid #888888;
@@ -58,10 +53,7 @@ textarea {
     width: 100%;
 }
 
-input:focus,
-select:focus,
-textarea:focus,
-button:focus {
+input:focus, select:focus, textarea:focus, button:focus {
     border-color: #478061;
     outline: 1px solid #478061;
 }
@@ -79,11 +71,52 @@ footer {
     color: white;
     text-align: center;
 }
+header {
+    width: 100%;
+}
 
 header h1 {
     margin: 20px 4px;
 }
 
+/* 1430 */
+
+@media only screen and (max-width: 1430px) {
+
+    header {
+        width: 80vw;
+        margin: 0 auto;
+    }
+
+    .wrap {
+        width: 95vw;
+        justify-content: center;
+    }
+    header h1 {
+        text-align: center;
+    }
+    .engines {
+        width: 95vw;
+        text-align: center;
+    }
+
+    text
+    .item-wrapper {
+        
+        width: 100%;
+    }
+    .wrap-right {
+        width: 95vw;
+        text-align: center;
+    }
+
+    footer {
+        position: relative;
+        left: 0;
+        bottom: 0;
+        margin-top: 50px;
+    }
+}
 @media screen and (prefers-color-scheme: dark) {
     body {
         background-color: #212529;
@@ -100,10 +133,7 @@ header h1 {
         color: #599bf6;
         text-decoration: none;
     }
-    input,
-    select,
-    button,
-    textarea {
+    input, select, button, textarea {
         background-color: #131618;
         border-color: #495057;
         color: #f8f9fa;
