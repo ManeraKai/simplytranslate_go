@@ -11,10 +11,11 @@ import (
 type indexDataStruct struct {
 	LangListFrom []string
 	LangListTo   []string
-	Input        string
 	Output       string
+	Engine       string
 	From         string
 	To           string
+	Input        string
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
@@ -23,6 +24,11 @@ func index(w http.ResponseWriter, r *http.Request) {
 	to := r.FormValue("to_language")
 	text := r.FormValue("input")
 	switchlangs := r.FormValue("switchlangs")
+	engine := r.FormValue("engine")
+
+	if engine != "google" && engine != "libre" {
+		engine = "google"
+	}
 
 	if from == "" {
 		from = "auto"
@@ -37,7 +43,32 @@ func index(w http.ResponseWriter, r *http.Request) {
 		to = tmpFrom
 	}
 
-	output := engines.Translate(text, from, to, "google")
+	var output string
+
+	if r.Method == http.MethodGet {
+		for _, c := range r.Cookies() {
+			if c.Name == "from" {
+				from = c.Value
+			}
+			if c.Name == "to" {
+				to = c.Value
+			}
+		}
+	} else if r.Method == http.MethodPost {
+		fromCookie := &http.Cookie{
+			Name:   "from",
+			Value:  from,
+			MaxAge: 300,
+		}
+		toCookie := &http.Cookie{
+			Name:   "to",
+			Value:  to,
+			MaxAge: 300,
+		}
+		http.SetCookie(w, fromCookie)
+		http.SetCookie(w, toCookie)
+		output = engines.Translate(text, from, to, engine)
+	}
 
 	var langListFrom []string = []string{}
 
@@ -51,7 +82,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 
 	var langListTo []string = []string{}
 
-	for k, v := range engines.GetSupportedLanguages("Google") {
+	for k, v := range engines.GetSupportedLanguages(engine) {
 		isSelectedFrom := ""
 		isSelectedTo := ""
 		if k == from {
@@ -70,10 +101,11 @@ func index(w http.ResponseWriter, r *http.Request) {
 	indexData := indexDataStruct{
 		langListFrom,
 		langListTo,
-		text,
 		output,
+		engine,
 		from,
 		to,
+		text,
 	}
 
 	t, _ := template.ParseFiles("index.html")

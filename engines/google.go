@@ -146,7 +146,6 @@ func (self googleTranslateEngineStruct) Translate(text, from, to string) string 
 
 	myUrl := "https://translate.googleapis.com/translate_a/single?client=gtx&ie=UTF-8&oe=UTF-8&dt=bd&dt=ex&dt=ld&dt=md&dt=rw&dt=rm&dt=ss&dt=t&dt=at&dt=qc&" + params
 
-	println(myUrl)
 	r, httpError := http.Get(myUrl)
 
 	if httpError != nil {

@@ -18,16 +18,13 @@
             <h1>SimplyTranslate Web</h1>
         </header>
         <br>
-        <form id="form" action="/?engine=google" method="POST">
-            <!-- engine buttons -->
+        <form id="form" action="/?engine={{.Engine}}" method="POST">
             <div class="engines">
                 Engine
-                <a style="text-decoration: underline;" href="/?engine=google&typingiscool=False">Google</a> |
-                <a href="/?engine=deepl&typingiscool=False">DeepL (Testing)</a> |
-                <a href="/?engine=libre&typingiscool=False">LibreTranslate</a>
+                <a style="text-decoration: underline;" href="/?engine=google">Google</a> |
+                <a href="/?engine=libre">LibreTranslate</a>
             </div>
             <br>
-            <!-- from and to language -->
             <div class="wrap">
                 <div class="language">
                     <select name="from_language" id="from_language" aria-label="Source language">
@@ -53,7 +50,6 @@
                 </div>
 
             </div>
-            <!-- text boxes -->
             <div class="wrap">
                 <div class="item-wrapper">
                     <textarea autofocus class="item autoresize" id="input" name="input" dir="auto"
@@ -65,7 +61,7 @@
                 </div>
             </div>
             <div class="wrap-right">
-                <button type="submit">Translate with google!</button>
+                <button type="submit">Translate with {{.Engine}}!</button>
             </div>
         </form>
     </div>
