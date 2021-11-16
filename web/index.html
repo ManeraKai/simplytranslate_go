@@ -56,11 +56,11 @@
             <!-- text boxes -->
             <div class="wrap">
                 <div class="item-wrapper">
-                    <textarea autofocus class="item" id="input" name="input" dir="auto"
+                    <textarea autofocus class="item autoresize" id="input" name="input" dir="auto"
                         placeholder="Enter Text Here">{{.Input}}</textarea>
                 </div>
                 <div class="item-wrapper">
-                    <textarea class="translation item" dir="auto" placeholder="Translation"
+                    <textarea class="translation item autoresize" dir="auto" placeholder="Translation"
                         readonly>{{.Output}}</textarea>
                 </div>
             </div>
@@ -69,17 +69,12 @@
             </div>
         </form>
     </div>
+    <br><br><br>
     <footer>
         <a target="_new" href="https://simple-web.org/projects/simplytranslate.html">Project Page</a> | <a
             href="https://simple-web.org">Simple Web Project</a>
     </footer>
-    <script>
-        document.onkeypress =
-            function () {
-                if (event.ctrlKey && event.keyCode == 13)
-                    document.getElementById('form').submit();
-            }
-    </script>
+    <script src="static/features.js"></script>
 </body>
 
 </html>

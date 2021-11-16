@@ -49,7 +49,6 @@ input, select, textarea {
 
 textarea {
     resize: vertical;
-    height: 5rem;
     width: 100%;
 }
 
@@ -64,13 +63,13 @@ body {
 }
 
 footer {
-    position: fixed;
     left: 0;
     bottom: 20px;
     width: 100%;
     color: white;
     text-align: center;
 }
+
 header {
     width: 100%;
 }
@@ -82,12 +81,10 @@ header h1 {
 /* 1430 */
 
 @media only screen and (max-width: 1430px) {
-
     header {
         width: 80vw;
         margin: 0 auto;
     }
-
     .wrap {
         width: 95vw;
         justify-content: center;
@@ -99,17 +96,13 @@ header h1 {
         width: 95vw;
         text-align: center;
     }
-
-    text
-    .item-wrapper {
-        
+    text .item-wrapper {
         width: 100%;
     }
     .wrap-right {
         width: 95vw;
         text-align: center;
     }
-
     footer {
         position: relative;
         left: 0;
@@ -117,13 +110,11 @@ header h1 {
         margin-top: 50px;
     }
 }
+
 @media screen and (prefers-color-scheme: dark) {
     body {
         background-color: #212529;
         color: #f8f9fa;
-    }
-    #could_not_switch_languages_text {
-        color: #F13333;
     }
     a:visited {
         color: #9759f6;
