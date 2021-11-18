@@ -1,0 +1,6 @@
+[Service]
+WorkingDirectory=/var/www/simplytranslate_go/web/
+ExecStart=/var/www/simplytranslate_go/web/simplytranslate_web
+
+[Install]
+WantedBy=default.target
