@@ -66,3 +66,7 @@ $ cd web/
 
 $ go build
 ```
+
+## Mirror Repos
+[![GitHub](https://raw.githubusercontent.com/ManeraKai/manerakai/main/icons/github.svg)](https://github.com/ManeraKai/simplytranslate_go)&nbsp;&nbsp;
+[![Codeberg](https://raw.githubusercontent.com/ManeraKai/manerakai/main/icons/codeberg.svg)](https://codeberg.org/ManeraKai/simplytranslate_go)&nbsp;&nbsp;
