@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"simplytranslate_go/engines"
 	"sort"
+	"strings"
 	"text/template"
 )
 
@@ -16,6 +17,7 @@ type indexDataStruct struct {
 	From         string
 	To           string
 	Input        string
+	EngineList   []string
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
@@ -100,6 +102,19 @@ func index(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	var engineList []string
+
+	if config.GetBool("google.enabled") {
+		engineList = append(engineList, "<a href=\"/?engine=google\">Google</a>&nbsp;|")
+	}
+	if config.GetBool("libre.enabled") {
+		engineList = append(engineList, "<a href=\"/?engine=libre\">LibreTranslate</a>&nbsp;|")
+	}
+
+	lastIndex := len(engineList) - 1
+
+	engineList[lastIndex] = strings.ReplaceAll(engineList[lastIndex], "&nbsp;|", "")
+
 	indexData := indexDataStruct{
 		langListFrom,
 		langListTo,
@@ -108,6 +123,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 		from,
 		to,
 		text,
+		engineList,
 	}
 
 	t, _ := template.ParseFiles("index.html")

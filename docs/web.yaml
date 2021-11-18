@@ -1,0 +1,11 @@
+libre:
+  enabled: false
+  instance: https://libretranslate.com
+  apiKey:
+
+google:
+  enabled: true
+
+network:
+  port: 5000
+  host: 0.0.0.0

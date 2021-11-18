@@ -21,8 +21,9 @@
         <form id="form" action="/?engine={{.Engine}}" method="POST">
             <div class="engines">
                 Engine
-                <a style="text-decoration: underline;" href="/?engine=google">Google</a> |
-                <a href="/?engine=libre">LibreTranslate</a>
+                {{range $v := .EngineList}}
+                {{$v}}
+                {{end}}
             </div>
             <br>
             <div class="wrap">
