@@ -70,3 +70,6 @@ $ go build
 ## Mirror Repos
 [![GitHub](https://raw.githubusercontent.com/ManeraKai/manerakai/main/icons/github.svg)](https://github.com/ManeraKai/simplytranslate_go)&nbsp;&nbsp;
 [![Codeberg](https://raw.githubusercontent.com/ManeraKai/manerakai/main/icons/codeberg.svg)](https://codeberg.org/ManeraKai/simplytranslate_go)&nbsp;&nbsp;
+
+## License
+[GNU Affero General Public License](https://www.gnu.org/licenses/agpl-3.0.en.html)
