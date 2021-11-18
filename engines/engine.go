@@ -12,7 +12,12 @@ type Engine interface {
 }
 
 func isEngineEnabled(engine string) bool {
-	if conf.GetBool(engine+".enabled") == true {
+	if config.GetBool(engine+".enabled") == true {
+		if engine == "libre" {
+			if config.GetString("libre.instance") != "" {
+				return true
+			}
+		}
 		return true
 	}
 	return false
@@ -78,10 +83,10 @@ func GetEngine(engineName string) Engine {
 
 }
 
-var conf *viper.Viper
+var config *viper.Viper
 
 func init() {
-	conf = viper.New()
-	conf.SetConfigFile("/etc/simplytranslate_go/web.yaml")
-	conf.ReadInConfig()
+	config = viper.New()
+	config.SetConfigFile("/etc/simplytranslate_go/web.yaml")
+	config.ReadInConfig()
 }

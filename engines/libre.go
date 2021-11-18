@@ -21,64 +21,25 @@ var LibreTranslateEngine = func() *libreTranslateEngineStruct {
 	return &libreTranslateEngineStruct{"libre"}
 }()
 
-var libreSupportedLanguages map[string]string
-
-var supportedLangs map[string]string
-
 func (self libreTranslateEngineStruct) GetSupportedLanguages() map[string]string {
-	if len(supportedLangs) == 0 {
-		if libreSupportedLanguages != nil {
-			return libreSupportedLanguages
-		}
-
-		resp, err := http.Get("https://almaleehserver.asuscomm.com:451/languages")
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		defer resp.Body.Close()
-
-		bodyBytes, error := ioutil.ReadAll(resp.Body)
-
-		if error != nil {
-			log.Fatal(error)
-		}
-
-		bodyString := string(bodyBytes)
-
-		// This is for testing to not abuse libretranslate's api
-		// bodyString := "[{\"code\":\"en\",\"name\":\"English\"},{\"code\":\"ar\",\"name\":\"Arabic\"},{\"code\":\"zh\",\"name\":\"Chinese\"},{\"code\":\"nl\",\"name\":\"Dutch\"},{\"code\":\"fi\",\"name\":\"Finnish\"},{\"code\":\"fr\",\"name\":\"French\"},{\"code\":\"de\",\"name\":\"German\"},{\"code\":\"hi\",\"name\":\"Hindi\"},{\"code\":\"hu\",\"name\":\"Hungarian\"},{\"code\":\"id\",\"name\":\"Indonesian\"},{\"code\":\"ga\",\"name\":\"Irish\"},{\"code\":\"it\",\"name\":\"Italian\"},{\"code\":\"ja\",\"name\":\"Japanese\"},{\"code\":\"ko\",\"name\":\"Korean\"},{\"code\":\"pl\",\"name\":\"Polish\"},{\"code\":\"pt\",\"name\":\"Portuguese\"},{\"code\":\"ru\",\"name\":\"Russian\"},{\"code\":\"es\",\"name\":\"Spanish\"},{\"code\":\"sv\",\"name\":\"Swedish\"},{\"code\":\"tr\",\"name\":\"Turkish\"},{\"code\":\"uk\",\"name\":\"Ukranian\"},{\"code\":\"vi\",\"name\":\"Vietnamese\"}]"
-
-		lengthy, lengthyError := strconv.Atoi(gjson.Get(bodyString, "#").Raw)
-
-		if lengthyError != nil {
-			fmt.Println(lengthyError)
-		}
-
-		var result map[string]string = make(map[string]string)
-
-		for i := 0; i < lengthy; i++ {
-			element := gjson.Get(bodyString, strconv.Itoa(i))
-			result[element.Get("code").Str] = element.Get("name").Str
-		}
-		supportedLangs = result
-		return result
-	} else {
-		return supportedLangs
-	}
-
+	return supportedLangs
 }
 
 func (self libreTranslateEngineStruct) Translate(text, from, to string) string {
 
 	values := map[string]string{"q": strings.TrimSpace(text), "source": from, "target": to}
+
+	if apiKey != "" {
+		values["api_key"] = apiKey
+	}
+
 	json_data, err := json.Marshal(values)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	resp, httpError := http.Post("https://almaleehserver.asuscomm.com:451/translate?", "application/json", bytes.NewBuffer(json_data))
+	resp, httpError := http.Post(instance+"/translate?", "application/json", bytes.NewBuffer(json_data))
 
 	if httpError != nil {
 		fmt.Println("httpError:", httpError)
@@ -93,10 +54,6 @@ func (self libreTranslateEngineStruct) Translate(text, from, to string) string {
 	}
 
 	bodyString := string(bodyBytes)
-
-	// For testing without abusing the api
-	// bodyString := "{\"translatedText\": \"¡Hola mundo raro!\"}"
-	// bodyString := "{\"error\": \"error\"}"
 
 	if gjson.Get(bodyString, "error").Str != "" {
 		return ""
@@ -108,13 +65,18 @@ func (self libreTranslateEngineStruct) Translate(text, from, to string) string {
 func (self libreTranslateEngineStruct) DetectLanguage(text string) string {
 
 	values := map[string]string{"q": strings.TrimSpace(text)}
+
+	if apiKey != "" {
+		values["api_key"] = apiKey
+	}
+
 	json_data, err := json.Marshal(values)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	resp, httpError := http.Post("https://almaleehserver.asuscomm.com:451/detect", "application/json", bytes.NewBuffer(json_data))
+	resp, httpError := http.Post(instance+"/detect", "application/json", bytes.NewBuffer(json_data))
 
 	if httpError != nil {
 		fmt.Println("httpError:", httpError)
@@ -130,13 +92,50 @@ func (self libreTranslateEngineStruct) DetectLanguage(text string) string {
 
 	bodyString := string(bodyBytes)
 
-	// For testing without abusing the api
-	// bodyString := "{\"language\": \"en\"}"
-	// bodyString := "{\"error\": \"error\"}"
-
 	if gjson.Get(bodyString, "error").Str != "" {
 		return ""
 	}
 
 	return gjson.Get(bodyString, "0").Get("language").Str
+}
+
+func initSupportedLangs() map[string]string {
+	resp, err := http.Get(instance + "/languages")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer resp.Body.Close()
+
+	bodyBytes, error := ioutil.ReadAll(resp.Body)
+
+	if error != nil {
+		log.Fatal(error)
+	}
+
+	bodyString := string(bodyBytes)
+
+	lengthy, lengthyError := strconv.Atoi(gjson.Get(bodyString, "#").Raw)
+
+	if lengthyError != nil {
+		fmt.Println(lengthyError)
+	}
+
+	var result map[string]string = make(map[string]string)
+
+	for i := 0; i < lengthy; i++ {
+		element := gjson.Get(bodyString, strconv.Itoa(i))
+		result[element.Get("code").Str] = element.Get("name").Str
+	}
+	return result
+}
+
+var instance string
+var apiKey string
+var supportedLangs map[string]string
+
+func init() {
+	instance = config.GetString("libre.instance")
+	apiKey = config.GetString("libre.apiKey")
+	supportedLangs = initSupportedLangs()
 }

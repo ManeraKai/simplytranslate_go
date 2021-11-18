@@ -31,7 +31,7 @@ $ cd /etc/simplytranslate_go/
 
 $ sudo wget https://raw.githubusercontent.com/ManeraKai/simplytranslate_go/master/docs/web.yaml
 ```
-You've now downloaded a template config file with default settings. You can edit it with nano
+This downloads a template config file with default settings. You can edit it with nano
 ```
 sudo nano web.yaml
 ```
@@ -40,19 +40,23 @@ sudo nano web.yaml
 ```
 $ ./simplytranslate_web
 ```
+
 ### Auto running it at startup with systemd
 ```
 $ cd /etc/systemd/system/
 
 $ sudo wget https://raw.githubusercontent.com/ManeraKai/simplytranslate_go/master/docs/simplytranslate_go.service
-
+```
+This downloads a `.service` file that runs the executable in `/etc/simplytranslate_go/`
+```
 $ sudo systemctl enable simplytranslate_go.service
 
 $ sudo systemctl start simplytranslate_go
 ```
+This Enables the service
+
 
 ## Updating
-
 ```
 $ cd /var/simplytranslate_go
 
