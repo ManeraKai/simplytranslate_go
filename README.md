@@ -61,7 +61,10 @@ $ sudo systemctl enable simplytranslate_go.service
 
 $ sudo systemctl start simplytranslate_go
 ```
-
+To check if there's any errors 
+```
+$ systemctl status simplytranslate_go
+```
 
 ## Updating it
 ```
