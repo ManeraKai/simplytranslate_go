@@ -24,11 +24,12 @@ $ cd simplytranslate_go/web/
 $ sudo go build
 ```
 
-
 ## Config
 Download a template config file with default settings to this path `/etc/simplytranslate_go/`
  
 ```
+$ sudo mkdir /etc/simplytranslate_go/
+
 $ cd /etc/simplytranslate_go/
 
 $ sudo wget https://raw.githubusercontent.com/ManeraKai/simplytranslate_go/master/docs/web.yaml
@@ -36,11 +37,13 @@ $ sudo wget https://raw.githubusercontent.com/ManeraKai/simplytranslate_go/maste
 ```
 You can edit it with nano
 ```
-sudo nano web.yaml
+$ sudo nano web.yaml
 ```
 
 ## Running it
 ```
+$ cd /var/simplytranslate_go/web/
+
 $ ./simplytranslate_web
 ```
 
@@ -68,7 +71,7 @@ $ sudo git pull
 
 $ cd web/
 
-$ go build
+$ sudo go build
 ```
 To restart it with systemd
 ```
