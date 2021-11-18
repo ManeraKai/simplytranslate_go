@@ -3,7 +3,6 @@ package engines
 import (
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -165,7 +164,7 @@ func (self googleTranslateEngineStruct) Translate(text, from, to string) string 
 
 	lengthy, lengthyError := strconv.Atoi(firstAbstraction.Get("#").Raw)
 	if lengthyError != nil {
-		log.Fatal(lengthyError)
+		fmt.Println(lengthyError)
 	}
 
 	var translation string

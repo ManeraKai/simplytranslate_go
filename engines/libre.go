@@ -23,43 +23,49 @@ var LibreTranslateEngine = func() *libreTranslateEngineStruct {
 
 var libreSupportedLanguages map[string]string
 
+var supportedLangs map[string]string
+
 func (self libreTranslateEngineStruct) GetSupportedLanguages() map[string]string {
-	if libreSupportedLanguages != nil {
-		return libreSupportedLanguages
+	if len(supportedLangs) == 0 {
+		if libreSupportedLanguages != nil {
+			return libreSupportedLanguages
+		}
+
+		resp, err := http.Get("https://almaleehserver.asuscomm.com:451/languages")
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		defer resp.Body.Close()
+
+		bodyBytes, error := ioutil.ReadAll(resp.Body)
+
+		if error != nil {
+			log.Fatal(error)
+		}
+
+		bodyString := string(bodyBytes)
+
+		// This is for testing to not abuse libretranslate's api
+		// bodyString := "[{\"code\":\"en\",\"name\":\"English\"},{\"code\":\"ar\",\"name\":\"Arabic\"},{\"code\":\"zh\",\"name\":\"Chinese\"},{\"code\":\"nl\",\"name\":\"Dutch\"},{\"code\":\"fi\",\"name\":\"Finnish\"},{\"code\":\"fr\",\"name\":\"French\"},{\"code\":\"de\",\"name\":\"German\"},{\"code\":\"hi\",\"name\":\"Hindi\"},{\"code\":\"hu\",\"name\":\"Hungarian\"},{\"code\":\"id\",\"name\":\"Indonesian\"},{\"code\":\"ga\",\"name\":\"Irish\"},{\"code\":\"it\",\"name\":\"Italian\"},{\"code\":\"ja\",\"name\":\"Japanese\"},{\"code\":\"ko\",\"name\":\"Korean\"},{\"code\":\"pl\",\"name\":\"Polish\"},{\"code\":\"pt\",\"name\":\"Portuguese\"},{\"code\":\"ru\",\"name\":\"Russian\"},{\"code\":\"es\",\"name\":\"Spanish\"},{\"code\":\"sv\",\"name\":\"Swedish\"},{\"code\":\"tr\",\"name\":\"Turkish\"},{\"code\":\"uk\",\"name\":\"Ukranian\"},{\"code\":\"vi\",\"name\":\"Vietnamese\"}]"
+
+		lengthy, lengthyError := strconv.Atoi(gjson.Get(bodyString, "#").Raw)
+
+		if lengthyError != nil {
+			fmt.Println(lengthyError)
+		}
+
+		var result map[string]string = make(map[string]string)
+
+		for i := 0; i < lengthy; i++ {
+			element := gjson.Get(bodyString, strconv.Itoa(i))
+			result[element.Get("code").Str] = element.Get("name").Str
+		}
+		supportedLangs = result
+		return result
+	} else {
+		return supportedLangs
 	}
-
-	resp, err := http.Get("https://almaleehserver.asuscomm.com:451/languages")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	defer resp.Body.Close()
-
-	bodyBytes, error := ioutil.ReadAll(resp.Body)
-
-	if error != nil {
-		log.Fatal(error)
-	}
-
-	bodyString := string(bodyBytes)
-
-	// This is for testing to not abuse libretranslate's api
-	// bodyString := "[{\"code\":\"en\",\"name\":\"English\"},{\"code\":\"ar\",\"name\":\"Arabic\"},{\"code\":\"zh\",\"name\":\"Chinese\"},{\"code\":\"nl\",\"name\":\"Dutch\"},{\"code\":\"fi\",\"name\":\"Finnish\"},{\"code\":\"fr\",\"name\":\"French\"},{\"code\":\"de\",\"name\":\"German\"},{\"code\":\"hi\",\"name\":\"Hindi\"},{\"code\":\"hu\",\"name\":\"Hungarian\"},{\"code\":\"id\",\"name\":\"Indonesian\"},{\"code\":\"ga\",\"name\":\"Irish\"},{\"code\":\"it\",\"name\":\"Italian\"},{\"code\":\"ja\",\"name\":\"Japanese\"},{\"code\":\"ko\",\"name\":\"Korean\"},{\"code\":\"pl\",\"name\":\"Polish\"},{\"code\":\"pt\",\"name\":\"Portuguese\"},{\"code\":\"ru\",\"name\":\"Russian\"},{\"code\":\"es\",\"name\":\"Spanish\"},{\"code\":\"sv\",\"name\":\"Swedish\"},{\"code\":\"tr\",\"name\":\"Turkish\"},{\"code\":\"uk\",\"name\":\"Ukranian\"},{\"code\":\"vi\",\"name\":\"Vietnamese\"}]"
-
-	lengthy, lengthyError := strconv.Atoi(gjson.Get(bodyString, "#").Raw)
-
-	if lengthyError != nil {
-		log.Fatal(lengthyError)
-	}
-
-	var result map[string]string = make(map[string]string)
-
-	for i := 0; i < lengthy; i++ {
-		element := gjson.Get(bodyString, strconv.Itoa(i))
-		result[element.Get("code").Str] = element.Get("name").Str
-	}
-
-	return result
 
 }
 
