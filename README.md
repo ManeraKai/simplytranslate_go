@@ -72,4 +72,4 @@ $ go build
 [![Codeberg](https://raw.githubusercontent.com/ManeraKai/manerakai/main/icons/codeberg.svg)](https://codeberg.org/ManeraKai/simplytranslate_go)&nbsp;&nbsp;
 
 ## License
-[GNU Affero General Public License](https://www.gnu.org/licenses/agpl-3.0.en.html)
+[GNU Affero General Public License](./LICENSE)
