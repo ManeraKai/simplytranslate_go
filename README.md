@@ -9,7 +9,7 @@ An alternative front-end to GoogleTranslate, LibreTranslate
 $ sudo apt install golang
 ```
 
-### 2. Clone the Repository
+### 2. Clone the Repository to `/var/`
 ```
 $ cd /var/
 
@@ -17,21 +17,24 @@ $ sudo git clone https://github.com/ManeraKai/simplytranslate_go.git
 ```
 
 ### 3. Compile with [golang](https://golang.org/)
+This command will compile an executable called `simplytranslate_web`
 ```
 $ cd simplytranslate_go/web/
 
 $ sudo go build
 ```
-This will compile an executable called `simplytranslate_web`
+
 
 ## Config
-Save them here `/etc/simplytranslate_go/`
+Download a template config file with default settings to this path `/etc/simplytranslate_go/`
+ 
 ```
 $ cd /etc/simplytranslate_go/
 
 $ sudo wget https://raw.githubusercontent.com/ManeraKai/simplytranslate_go/master/docs/web.yaml
+
 ```
-This downloads a template config file with default settings. You can edit it with nano
+You can edit it with nano
 ```
 sudo nano web.yaml
 ```
@@ -42,29 +45,34 @@ $ ./simplytranslate_web
 ```
 
 ### Auto running it at startup with systemd
+The command below downloads a `.service` file that runs the executable in `/etc/simplytranslate_go/`
 ```
 $ cd /etc/systemd/system/
 
 $ sudo wget https://raw.githubusercontent.com/ManeraKai/simplytranslate_go/master/docs/simplytranslate_go.service
 ```
-This downloads a `.service` file that runs the executable in `/etc/simplytranslate_go/`
+
+To enable the service
 ```
 $ sudo systemctl enable simplytranslate_go.service
 
 $ sudo systemctl start simplytranslate_go
 ```
-This Enables the service
 
 
-## Updating
+## Updating it
 ```
 $ cd /var/simplytranslate_go
 
-$ git pull
+$ sudo git pull
 
 $ cd web/
 
 $ go build
+```
+To restart it with systemd
+```
+sudo systemctl restart simplytranslate_go
 ```
 
 ## Mirror Repos
