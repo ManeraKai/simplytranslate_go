@@ -3,8 +3,8 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	htmlTemplate "html/template"
 	"net/http"
-
 	"simplytranslate_go/engines"
 )
 
@@ -24,7 +24,10 @@ func translate(w http.ResponseWriter, r *http.Request) {
 		writeError(w, 400, "'to' field is missing")
 	}
 
-	fmt.Fprintf(w, engines.GoogleTranslateEngine.Translate(text, from, to))
+	result := htmlTemplate.HTMLEscapeString(engines.GoogleTranslateEngine.Translate(text, from, to))
+	text = htmlTemplate.HTMLEscapeString(text)
+
+	fmt.Fprintf(w, result)
 
 }
 

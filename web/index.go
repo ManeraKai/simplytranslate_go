@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	htmlTemplate "html/template"
 	"net/http"
 	"simplytranslate_go/engines"
 	"sort"
@@ -114,6 +115,9 @@ func index(w http.ResponseWriter, r *http.Request) {
 	lastIndex := len(engineList) - 1
 
 	engineList[lastIndex] = strings.ReplaceAll(engineList[lastIndex], "&nbsp;|", "")
+
+	text = htmlTemplate.HTMLEscapeString(text)
+	output = htmlTemplate.HTMLEscapeString(output)
 
 	indexData := indexDataStruct{
 		langListFrom,
