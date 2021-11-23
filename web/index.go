@@ -21,6 +21,17 @@ type indexDataStruct struct {
 	EngineList   []string
 }
 
+func mapkey(m map[string]string, value string) (key string, ok bool) {
+	for k, v := range m {
+		if v == value {
+			key = k
+			ok = true
+			return
+		}
+	}
+	return
+}
+
 func index(w http.ResponseWriter, r *http.Request) {
 
 	from := r.FormValue("from_language")
@@ -85,22 +96,35 @@ func index(w http.ResponseWriter, r *http.Request) {
 	var langListFrom []string = []string{}
 	var langListTo []string = []string{}
 	langListFrom = append(langListFrom, fmt.Sprintf("<option %s value=\"auto\">AutoDetect</option>", isAutoSelected))
+	var langList []string = []string{}
+	var langListVals []string = []string{}
 
-	for k, v := range engines.GetSupportedLanguages(engine) {
-		isSelectedFrom := ""
-		isSelectedTo := ""
+	isSelectedFrom := ""
+	isSelectedTo := ""
+
+	mapList := engines.GetSupportedLanguages(engine)
+	for _, v := range mapList {
+		langList = append(langList, v)
+		langListVals = append(langListVals, v)
+	}
+
+	sort.Strings(langListVals)
+
+	for _, v := range langListVals {
+		k, _ := mapkey(mapList, v)
+
 		if k == from {
 			isSelectedFrom = "selected"
+		} else {
+			isSelectedFrom = ""
 		}
+		langListFrom = append(langListFrom, fmt.Sprintf("<option %s value=\"%s\" >%s</option>", isSelectedFrom, k, v))
 		if k == to {
 			isSelectedTo = "selected"
+		} else {
+			isSelectedTo = ""
 		}
-
-		langListFrom = append(langListFrom, fmt.Sprintf("<option %s value=\"%s\">%s</option>", isSelectedFrom, k, v))
-		langListTo = append(langListTo, fmt.Sprintf("<option %s value=\"%s\">%s</option>", isSelectedTo, k, v))
-		sort.Strings(langListFrom)
-		sort.Strings(langListTo)
-
+		langListTo = append(langListTo, fmt.Sprintf("<option %s value=\"%s\" >%s</option>", isSelectedTo, k, v))
 	}
 
 	var engineList []string
