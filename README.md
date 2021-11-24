@@ -1,6 +1,8 @@
 # SimplyTranslate GO
 An alternative front-end to GoogleTranslate, LibreTranslate
 
+This is [SimplyTranslate](https://simplytranslate.org/), but written in [golang](https://golang.org/).
+
 ![screenshot1](./docs/screenshot1.png)
 
 ## Install ([Ubuntu Server](https://ubuntu.com/download/server))
@@ -17,7 +19,7 @@ $ sudo git clone https://github.com/ManeraKai/simplytranslate_go.git
 ```
 
 ### 3. Compile with [golang](https://golang.org/)
-This command will compile an executable called `simplytranslate_web`
+It will compile an executable called `simplytranslate_web`
 ```
 $ cd simplytranslate_go/web/
 
@@ -25,7 +27,7 @@ $ sudo go build
 ```
 
 ## Config
-Download a template config file with default settings to this path `/etc/simplytranslate_go/`
+Copy the template config file with the default settings to this path `/etc/simplytranslate_go/`
  
 ```
 $ sudo mkdir /etc/simplytranslate_go/
@@ -47,12 +49,11 @@ $ ./simplytranslate_web
 ```
 
 ### Auto running it at startup with systemd
-The command below downloads a `.service` file that runs the executable in `/etc/simplytranslate_go/`
+This `.service` file runs the executable in `/etc/simplytranslate_go/`
 ```
 $ cd /etc/systemd/system/
 
 $ sudo cp /var/simplytranslate_go/docs/simplytranslate_go.service ./
-
 ```
 
 To enable the service
@@ -76,6 +77,8 @@ $ cd web/
 
 $ sudo go build
 ```
+Be sure to check if there's any changes in the config files in [`/etc/simplytranslate_go/`](./docs)
+
 To restart it with systemd
 ```
 sudo systemctl restart simplytranslate_go
