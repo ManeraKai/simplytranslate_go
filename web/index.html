@@ -15,7 +15,7 @@
     <br>
     <div class="center">
         <header>
-            <h1>SimplyTranslate Web</h1>
+            <h1>SimplyTranslate</h1>
         </header>
         <br>
         <form id="form" action="/?engine={{.Engine}}" method="POST">
@@ -54,19 +54,15 @@
             </div>
 
             <div class="from">
-                <div class="item-wrapper">
-                    <textarea autofocus class="item autoresize" id="input" name="input" dir="auto"
-                        placeholder="Enter Text Here">{{.Input}}</textarea>
-                </div>
+                <textarea autofocus class="autoresize" id="input" name="input" dir="auto"
+                    placeholder="Enter Text Here">{{.Input}}</textarea>
             </div>
 
             <div class="to">
-                <div class="item-wrapper">
-                    <textarea class="translation item autoresize" dir="auto" placeholder="Translation"
-                        readonly>{{.Output}}</textarea>
-                </div>
+                <textarea class="translation autoresize" dir="auto" placeholder="Translation"
+                    readonly>{{.Output}}</textarea>
             </div>
-            
+
             <div class="fromAudio">
                 {{if .TtsTo}}
                 <audio controls>
@@ -75,11 +71,11 @@
                 </audio>
                 {{end}}
             </div>
-            
+
             <div class="translateButton">
                 <button type="submit">Translate with {{.Engine}}!</button>
             </div>
-            
+
             <div class="toAudio">
                 {{if .TtsTo}}
                 <audio controls>
@@ -92,8 +88,9 @@
     </div>
     <br><br><br>
     <footer>
-        <a target="_new" href="https://simple-web.org/projects/simplytranslate.html">Project Page</a> | <a
-            href="https://simple-web.org">Simple Web Project</a>
+        <a target="_new" href="https://simple-web.org/projects/simplytranslate.html">Project Page</a>
+        |
+        <a href="https://simple-web.org">Simple Web Project</a>
     </footer>
     <script src="static/features.js"></script>
 </body>

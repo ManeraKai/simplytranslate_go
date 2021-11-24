@@ -32,8 +32,7 @@ $ sudo mkdir /etc/simplytranslate_go/
 
 $ cd /etc/simplytranslate_go/
 
-$ sudo wget https://raw.githubusercontent.com/ManeraKai/simplytranslate_go/master/docs/web.yaml
-
+$ sudo cp /var/simplytranslate_go/docs/web.yaml ./
 ```
 You can edit it with nano
 ```
@@ -52,7 +51,8 @@ The command below downloads a `.service` file that runs the executable in `/etc/
 ```
 $ cd /etc/systemd/system/
 
-$ sudo wget https://raw.githubusercontent.com/ManeraKai/simplytranslate_go/master/docs/simplytranslate_go.service
+$ sudo cp /var/simplytranslate_go/docs/simplytranslate_go.service ./
+
 ```
 
 To enable the service

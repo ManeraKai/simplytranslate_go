@@ -59,6 +59,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 	var output string
 
 	if r.Method == http.MethodGet {
+		fmt.Println("GET", r.RemoteAddr)
 		for _, c := range r.Cookies() {
 			if c.Name == "from" {
 				from = c.Value
@@ -68,7 +69,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	} else if r.Method == http.MethodPost {
-
+		fmt.Println("POST", r.RemoteAddr)
 		if switchlangs == "switch" {
 			tmpFrom := from
 			from = to
@@ -78,12 +79,12 @@ func index(w http.ResponseWriter, r *http.Request) {
 		fromCookie := &http.Cookie{
 			Name:   "from",
 			Value:  from,
-			MaxAge: 300,
+			MaxAge: 0,
 		}
 		toCookie := &http.Cookie{
 			Name:   "to",
 			Value:  to,
-			MaxAge: 300,
+			MaxAge: 0,
 		}
 		http.SetCookie(w, fromCookie)
 		http.SetCookie(w, toCookie)
