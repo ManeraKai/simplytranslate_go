@@ -9,3 +9,5 @@ google:
 network:
   port: 5000
   host: 0.0.0.0
+  certificate: /etc/letsencrypt/live/example.com/fullchain.pem
+  privateKey: /etc/letsencrypt/live/example.com/privkey.pem

@@ -26,6 +26,15 @@ func main() {
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
 	port := config.GetString("network.port")
-	fmt.Println("Running on http://localhost:" + port + "/")
-	http.ListenAndServe(":"+port, nil)
+	cert := config.GetString("network.certificate")
+	privKey := config.GetString("network.privateKey")
+
+	if cert != "" && privKey != "" {
+		fmt.Println("Running on https://localhost:" + port + "/")
+		http.ListenAndServeTLS(":"+port, cert, privKey, nil)
+	} else {
+		fmt.Println("Running on http://localhost:" + port + "/")
+		http.ListenAndServe(":"+port, nil)
+	}
+
 }
