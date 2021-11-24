@@ -4,11 +4,75 @@
     justify-content: start;
 }
 
+.languages {
+    grid-area: languages;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.engines {
+    grid-area: engines;
+}
+
+.from {
+    grid-area: from;
+}
+
+.to {
+    grid-area: to;
+}
+
+.fromAudio {
+    grid-area: fromAudio;
+}
+
+.translateButton {
+    grid-area: translateButton
+}
+
+.toAudio {
+    grid-area: toAudio
+}
+
+form {
+    display: grid;
+    grid-template-areas: 'engines engines engines engines' 'languages languages languages languages' 'from from to to' 'fromAudio translateButton toAudio toAudio';
+}
+
 .wrap-right {
+    display: flex;
     text-align: right;
+    flex-wrap: wrap;
     margin-top: 20px;
-    width: 700px;
+    width: 1400px;
     margin: 10px 5px;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.wrap-right .left {
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.wrap-right .alone {
+    justify-content: end;
+}
+
+.fromAudio {
+    margin: 5px 5px;
+}
+
+.toAudio {
+    margin: 5px 5px;
+}
+
+.translateButton {
+    margin: 5px 5px;
+    display: flex;
+    align-items: center;
+    justify-content: end;
 }
 
 .center {
@@ -80,7 +144,21 @@ header h1 {
 
 /* 1430 */
 
-@media only screen and (max-width: 1430px) {
+@media only screen and (max-width: 1450px) {
+    form {
+        width: 95vw;
+        grid-template-areas: 'engines' 'languages' 'from' 'fromAudio' 'to' 'toAudio' 'translateButton';
+    }
+    div.languages, div.from, div.to, div.fromAudio, div.toAudio, div.translateButton {
+        width: 93vw;        
+        display: flex;
+        justify-content: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    div.translateButton {
+        margin-top: 10px;
+    }
     header {
         width: 80vw;
         margin: 0 auto;
@@ -100,8 +178,26 @@ header h1 {
         width: 100%;
     }
     .wrap-right {
+        flex-wrap: wrap;
         width: 95vw;
+        margin: 0 auto;
         text-align: center;
+        justify-content: center;
+        align-items: center;
+    }
+    .wrap-right .left {
+        align-items: center;
+        width: auto;
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+    .wrap-right .left button {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    .wrap-right .right {
+        width: auto;
+        margin-bottom: 10px;
     }
     footer {
         position: relative;

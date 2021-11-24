@@ -24,9 +24,11 @@
                 {{range $v := .EngineList}}
                 {{$v}}
                 {{end}}
+                <br>
+                <br>
             </div>
-            <br>
-            <div class="wrap">
+
+            <div class="languages">
                 <div class="language">
                     <select name="from_language" id="from_language" aria-label="Source language">
                         {{range $v := .LangListFrom}}
@@ -49,20 +51,42 @@
                         {{end}}
                     </select>
                 </div>
-
             </div>
-            <div class="wrap">
+
+            <div class="from">
                 <div class="item-wrapper">
                     <textarea autofocus class="item autoresize" id="input" name="input" dir="auto"
                         placeholder="Enter Text Here">{{.Input}}</textarea>
                 </div>
+            </div>
+
+            <div class="to">
                 <div class="item-wrapper">
                     <textarea class="translation item autoresize" dir="auto" placeholder="Translation"
                         readonly>{{.Output}}</textarea>
                 </div>
             </div>
-            <div class="wrap-right">
+            
+            <div class="fromAudio">
+                {{if .TtsTo}}
+                <audio controls>
+                    <source src="{{.TtsFrom}}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                {{end}}
+            </div>
+            
+            <div class="translateButton">
                 <button type="submit">Translate with {{.Engine}}!</button>
+            </div>
+            
+            <div class="toAudio">
+                {{if .TtsTo}}
+                <audio controls>
+                    <source src="{{.TtsTo}}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                {{end}}
             </div>
         </form>
     </div>

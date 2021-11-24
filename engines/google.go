@@ -182,6 +182,10 @@ func (self googleTranslateEngineStruct) Translate(text, from, to string) string 
 
 func (self googleTranslateEngineStruct) Tts(text, lang string) []byte {
 
+	if lang == "auto" {
+		lang = "en"
+	}
+
 	paramsMap := url.Values{}
 	paramsMap.Add("q", strings.TrimSpace(text))
 	paramsMap.Add("tl", lang)

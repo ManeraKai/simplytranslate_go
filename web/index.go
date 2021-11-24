@@ -19,6 +19,8 @@ type indexDataStruct struct {
 	To           string
 	Input        string
 	EngineList   []string
+	TtsFrom      string
+	TtsTo        string
 }
 
 func mapkey(m map[string]string, value string) (key string, ok bool) {
@@ -39,6 +41,9 @@ func index(w http.ResponseWriter, r *http.Request) {
 	text := r.FormValue("input")
 	switchlangs := r.FormValue("switchlangs")
 	engine := r.FormValue("engine")
+
+	ttsFrom := ""
+	ttsTo := ""
 
 	if engine != "google" && engine != "libre" {
 		engine = "google"
@@ -84,6 +89,15 @@ func index(w http.ResponseWriter, r *http.Request) {
 		http.SetCookie(w, toCookie)
 		if text != "" {
 			output = engines.Translate(text, from, to, engine)
+		}
+
+		if config.GetBool("google.enabled") && engine == "google" {
+			if text != "" {
+				ttsFrom = "/api/tts?engine=google&text=" + htmlTemplate.HTMLEscapeString(text) + "&lang=" + from
+			}
+			if output != "" {
+				ttsTo = "/api/tts?engine=google&text=" + htmlTemplate.HTMLEscapeString(output) + "&lang=" + to
+			}
 		}
 	}
 
@@ -139,9 +153,9 @@ func index(w http.ResponseWriter, r *http.Request) {
 	lastIndex := len(engineList) - 1
 
 	engineList[lastIndex] = strings.ReplaceAll(engineList[lastIndex], "&nbsp;|", "")
+	output = htmlTemplate.HTMLEscapeString(output)
 
 	text = htmlTemplate.HTMLEscapeString(text)
-	output = htmlTemplate.HTMLEscapeString(output)
 
 	indexData := indexDataStruct{
 		langListFrom,
@@ -152,6 +166,8 @@ func index(w http.ResponseWriter, r *http.Request) {
 		to,
 		text,
 		engineList,
+		ttsFrom,
+		ttsTo,
 	}
 
 	t, _ := template.ParseFiles("index.html")
