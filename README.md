@@ -27,7 +27,7 @@ $ sudo go build
 ```
 
 ## Config
-Copy the template config file with the default settings to this path `/etc/simplytranslate_go/`
+Copy the config file `web.yaml` with the default settings to this path `/etc/simplytranslate_go/`
  
 ```
 $ sudo mkdir /etc/simplytranslate_go/
@@ -54,6 +54,8 @@ This `.service` file runs the executable in `/etc/simplytranslate_go/`
 $ cd /etc/systemd/system/
 
 $ sudo cp /var/simplytranslate_go/docs/simplytranslate_go.service ./
+
+$ sudo systemctl daemon-reload 
 ```
 
 To enable the service
