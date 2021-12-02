@@ -26,116 +26,128 @@ func (self libreTranslateEngineStruct) GetSupportedLanguages() map[string]string
 }
 
 func (self libreTranslateEngineStruct) Translate(text, from, to string) string {
+	if libreEnabled {
+		values := map[string]string{"q": strings.TrimSpace(text), "source": from, "target": to}
 
-	values := map[string]string{"q": strings.TrimSpace(text), "source": from, "target": to}
+		if apiKey != "" {
+			values["api_key"] = apiKey
+		}
 
-	if apiKey != "" {
-		values["api_key"] = apiKey
+		json_data, err := json.Marshal(values)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		resp, httpError := http.Post(instance+"/translate?", "application/json", bytes.NewBuffer(json_data))
+
+		if httpError != nil {
+			fmt.Println("httpError:", httpError)
+		}
+
+		defer resp.Body.Close()
+
+		bodyBytes, error := ioutil.ReadAll(resp.Body)
+
+		if error != nil {
+			log.Fatal(error)
+		}
+
+		bodyString := string(bodyBytes)
+
+		if gjson.Get(bodyString, "error").Str != "" {
+			return ""
+		}
+
+		return gjson.Get(bodyString, "translatedText").Str
 	}
-
-	json_data, err := json.Marshal(values)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	resp, httpError := http.Post(instance+"/translate?", "application/json", bytes.NewBuffer(json_data))
-
-	if httpError != nil {
-		fmt.Println("httpError:", httpError)
-	}
-
-	defer resp.Body.Close()
-
-	bodyBytes, error := ioutil.ReadAll(resp.Body)
-
-	if error != nil {
-		log.Fatal(error)
-	}
-
-	bodyString := string(bodyBytes)
-
-	if gjson.Get(bodyString, "error").Str != "" {
-		return ""
-	}
-
-	return gjson.Get(bodyString, "translatedText").Str
+	return ""
 }
 
 func (self libreTranslateEngineStruct) DetectLanguage(text string) string {
+	if libreEnabled {
+		values := map[string]string{"q": strings.TrimSpace(text)}
 
-	values := map[string]string{"q": strings.TrimSpace(text)}
+		if apiKey != "" {
+			values["api_key"] = apiKey
+		}
 
-	if apiKey != "" {
-		values["api_key"] = apiKey
+		json_data, err := json.Marshal(values)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		resp, httpError := http.Post(instance+"/detect", "application/json", bytes.NewBuffer(json_data))
+
+		if httpError != nil {
+			fmt.Println("httpError:", httpError)
+		}
+
+		defer resp.Body.Close()
+
+		bodyBytes, error := ioutil.ReadAll(resp.Body)
+
+		if error != nil {
+			log.Fatal(error)
+		}
+
+		bodyString := string(bodyBytes)
+
+		if gjson.Get(bodyString, "error").Str != "" {
+			return ""
+		}
+
+		return gjson.Get(bodyString, "0").Get("language").Str
 	}
-
-	json_data, err := json.Marshal(values)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	resp, httpError := http.Post(instance+"/detect", "application/json", bytes.NewBuffer(json_data))
-
-	if httpError != nil {
-		fmt.Println("httpError:", httpError)
-	}
-
-	defer resp.Body.Close()
-
-	bodyBytes, error := ioutil.ReadAll(resp.Body)
-
-	if error != nil {
-		log.Fatal(error)
-	}
-
-	bodyString := string(bodyBytes)
-
-	if gjson.Get(bodyString, "error").Str != "" {
-		return ""
-	}
-
-	return gjson.Get(bodyString, "0").Get("language").Str
+	return ""
 }
 
 func initSupportedLangs() map[string]string {
-	resp, err := http.Get(instance + "/languages")
-	if err != nil {
-		log.Fatal(err)
+	if libreEnabled {
+		resp, err := http.Get(instance + "/languages")
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		defer resp.Body.Close()
+
+		bodyBytes, error := ioutil.ReadAll(resp.Body)
+
+		if error != nil {
+			log.Fatal(error)
+		}
+
+		bodyString := string(bodyBytes)
+
+		lengthy, lengthyError := strconv.Atoi(gjson.Get(bodyString, "#").Raw)
+
+		if lengthyError != nil {
+			fmt.Println(lengthyError)
+		}
+
+		var result map[string]string = make(map[string]string)
+
+		for i := 0; i < lengthy; i++ {
+			element := gjson.Get(bodyString, strconv.Itoa(i))
+			result[element.Get("code").Str] = element.Get("name").Str
+		}
+		return result
 	}
-
-	defer resp.Body.Close()
-
-	bodyBytes, error := ioutil.ReadAll(resp.Body)
-
-	if error != nil {
-		log.Fatal(error)
-	}
-
-	bodyString := string(bodyBytes)
-
-	lengthy, lengthyError := strconv.Atoi(gjson.Get(bodyString, "#").Raw)
-
-	if lengthyError != nil {
-		fmt.Println(lengthyError)
-	}
-
-	var result map[string]string = make(map[string]string)
-
-	for i := 0; i < lengthy; i++ {
-		element := gjson.Get(bodyString, strconv.Itoa(i))
-		result[element.Get("code").Str] = element.Get("name").Str
-	}
-	return result
+	return make(map[string]string)
 }
 
 var instance string
 var apiKey string
 var supportedLangs map[string]string
 
+var libreEnabled bool = false
+
 func init() {
-	instance = config.GetString("libre.instance")
-	apiKey = config.GetString("libre.apiKey")
+	libreEnabled = isEngineEnabled("libre")
+	if libreEnabled {
+		instance = config.GetString("libre.instance")
+		apiKey = config.GetString("libre.apiKey")
+	}
 	supportedLangs = initSupportedLangs()
 }
