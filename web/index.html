@@ -13,79 +13,76 @@
 
 <body>
     <br>
-    <div class="center">
-        <header>
-            <h1>SimplyTranslate</h1>
-        </header>
-        <br>
-        <form id="form" action="/?engine={{.Engine}}" method="POST">
-            <div class="engines">
-                Engine
-                {{range $v := .EngineList}}
-                {{$v}}
-                {{end}}
-                <br>
-                <br>
+    <header>
+        <h1>SimplyTranslate</h1>
+    </header>
+    <br>
+    <form id="form" action="/?engine={{.Engine}}" method="POST">
+        <div class="engines">
+            Engine
+            {{range $v := .EngineList}}
+            {{$v}}
+            {{end}}
+            <br>
+            <br>
+        </div>
+
+        <div class="languages">
+            <div class="language">
+                <select name="from_language" id="from_language" aria-label="Source language">
+                    {{range $v := .LangListFrom}}
+                    {{$v}}
+                    {{end}}
+                </select>
             </div>
 
-            <div class="languages">
-                <div class="language">
-                    <select name="from_language" id="from_language" aria-label="Source language">
-                        {{range $v := .LangListFrom}}
-                        {{$v}}
-                        {{end}}
-                    </select>
-                </div>
-
-                <div class="switch_languages">
-                    <button name="switchlangs" id="switchbutton" aria-label="Switch languages" value="switch"
-                        type="submit">
-                        <->
-                    </button>
-                </div>
-
-                <div class="language">
-                    <select name="to_language" id="to_language" aria-label="Target language" selected="{{.To}}">
-                        {{range $v := .LangListTo}}
-                        {{$v}}
-                        {{end}}
-                    </select>
-                </div>
+            <div class="switch_languages">
+                <button name="switchlangs" id="switchbutton" aria-label="Switch languages" value="switch" type="submit">
+                    <->
+                </button>
             </div>
 
-            <div class="from">
-                <textarea autofocus class="autoresize" id="input" name="input" dir="auto"
-                    placeholder="Enter Text Here">{{.Input}}</textarea>
+            <div class="language">
+                <select name="to_language" id="to_language" aria-label="Target language" selected="{{.To}}">
+                    {{range $v := .LangListTo}}
+                    {{$v}}
+                    {{end}}
+                </select>
             </div>
+        </div>
 
-            <div class="to">
-                <textarea class="translation autoresize" dir="auto" placeholder="Translation"
-                    readonly>{{.Output}}</textarea>
-            </div>
+        <div class="from">
+            <textarea autofocus class="autoresize" id="input" name="input" dir="auto"
+                placeholder="Enter Text Here">{{.Input}}</textarea>
+        </div>
 
-            <div class="fromAudio">
-                {{if .TtsTo}}
-                <audio controls>
-                    <source src="{{.TtsFrom}}" type="audio/mpeg">
-                    Your browser does not support the audio element.
-                </audio>
-                {{end}}
-            </div>
+        <div class="to">
+            <textarea class="translation autoresize" dir="auto" placeholder="Translation"
+                readonly>{{.Output}}</textarea>
+        </div>
 
-            <div class="translateButton">
-                <button type="submit">Translate with {{.Engine}}!</button>
-            </div>
+        <div class="fromAudio">
+            {{if .TtsTo}}
+            <audio controls>
+                <source src="{{.TtsFrom}}" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            {{end}}
+        </div>
 
-            <div class="toAudio">
-                {{if .TtsTo}}
-                <audio controls>
-                    <source src="{{.TtsTo}}" type="audio/mpeg">
-                    Your browser does not support the audio element.
-                </audio>
-                {{end}}
-            </div>
-        </form>
-    </div>
+        <div class="translateButton">
+            <button type="submit">Translate with {{.Engine}}!</button>
+        </div>
+
+        <div class="toAudio">
+            {{if .TtsTo}}
+            <audio controls>
+                <source src="{{.TtsTo}}" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            {{end}}
+        </div>
+    </form>
     <br><br><br>
     <footer>
         <a target="_new" href="https://simple-web.org/projects/simplytranslate.html">Project Page</a>

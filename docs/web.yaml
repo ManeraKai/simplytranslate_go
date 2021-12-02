@@ -1,6 +1,9 @@
 libre:
   enabled: false
+  
+  # Leave it empty if no instance is available.
   instance: https://libretranslate.com
+  
   apiKey:
 
 google:
@@ -9,5 +12,8 @@ google:
 network:
   port: 5000
   host: 0.0.0.0
+  
+  # Leave those empty if not available.
   certificate: /etc/letsencrypt/live/example.com/fullchain.pem
   privateKey: /etc/letsencrypt/live/example.com/privkey.pem
+  

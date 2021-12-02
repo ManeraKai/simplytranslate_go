@@ -34,7 +34,9 @@ div.toAudio {
 }
 
 form {
+    width: 1420px;
     display: grid;
+    margin: auto;
     grid-template-areas: 'engines engines engines engines''languages languages languages languages''from from to to''fromAudio translateButton toAudio toAudio';
 }
 
@@ -48,11 +50,6 @@ div.fromAudio, div.toAudio {
     margin: 5px 5px;
 }
 
-div.center {
-    width: max-content;
-    margin: auto;
-    align-items: center;
-}
 
 textarea {
     box-sizing: border-box;
@@ -93,7 +90,8 @@ footer {
 }
 
 header {
-    width: 80vw;
+    width: 1420px;
+    margin: auto;
 }
 
 header h1 {
@@ -104,17 +102,25 @@ header h1 {
     div.from, div.to {
         width: 600px;
     }
+
+    form, header {
+        width: 1200px;
+    }
+
 }
 
-@media only screen and (max-width: 1225px) {
+@media only screen and (max-width: 1240px) {
     div.from, div.to {
         width: 500px;
+    }
+
+    form, header {
+        width: 1000px;
     }
 }
 
 @media only screen and (max-width: 1050px) {
     form {
-        width: 95vw;
         grid-template-areas: 'engines''languages''from''fromAudio''to''toAudio''translateButton';
     }
 
@@ -126,14 +132,23 @@ header h1 {
         margin-right: auto;
     }
 
+    form {
+        margin: auto;
+        width: 93vw;
+    }
+    header{
+        width: 93vw;
+        text-align: center;
+        margin: auto;
+    }
+    header h1 {
+        margin: 0;
+    }
+
     div.translateButton {
         margin-top: 10px;
     }
 
-    header {
-        margin: 0 auto;
-        text-align: center;
-    }
 
     div.engines {
         width: 95vw;
